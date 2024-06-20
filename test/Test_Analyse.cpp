@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
   T t;
   std::cout << "Total Entries : " << t.fChain->GetEntries() << std::endl;
   t.Loop();
-  return 0;
+  //return 0;
   std::vector<Point3D *> vecOfPoint3D = t.GetMuonTrack(2);
   for (unsigned int i = 0; i < vecOfPoint3D.size(); i++)
   {

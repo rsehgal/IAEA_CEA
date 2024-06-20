@@ -15,15 +15,21 @@ class Point3D
 	double fY;
 	double fZ;
 
+	double fScattering;
+
 public:
 	Point3D();
 	Point3D(const Point3D &pt);
 	double GetX() const { return fX; }
 	double GetY() const { return fY; }
 	double GetZ() const { return fZ; }
+	void SetScattering(double val) ;
+	double GetScattering() const;
 	Point3D(double x, double y, double z);
+	Point3D(double x, double y, double z, double s);
 	void SetZero();
 	void Set(double x, double y, double z);
+	void Set(double x, double y, double z, double s);
 	void Divide(int n);
 	double Distance(Point3D p2);
 	void Print();

@@ -39,6 +39,15 @@ void Point3D::Set(double x, double y, double z)
 	fX = x;
 	fY = y;
 	fZ = z;
+	fScattering = 0.;
+}
+
+void Point3D::Set(double x, double y, double z, double s)
+{
+	fX = x;
+	fY = y;
+	fZ = z;
+	fScattering = s;
 }
 
 void Point3D::Divide(int n)
@@ -48,13 +57,17 @@ void Point3D::Divide(int n)
 	fZ /= n;
 }
 
-Point3D::Point3D(double x, double y, double z) : fX(x), fY(y), fZ(z)
+Point3D::Point3D(double x, double y, double z) : fX(x), fY(y), fZ(z), fScattering(0.)
+{
+}
+
+Point3D::Point3D(double x, double y, double z, double s) : fX(x), fY(y), fZ(z), fScattering(s)
 {
 }
 
 void Point3D::Print()
 {
-	std::cout << "( " << fX << " , " << fY << " , " << fZ << " )" << std::endl;
+	std::cout << "( " << fX << " , " << fY << " , " << fZ << " , " << fScattering << " )" << std::endl;
 }
 
 double Point3D::Distance(Point3D p2)
@@ -107,8 +120,18 @@ Point3D Point3D::operator/(double val)
 	return Point3D(frac * fX, frac * fY, frac * fZ);
 }
 
-Point3D Point3D::Unit(){
-	return (*this)/Mag();
+Point3D Point3D::Unit()
+{
+	return (*this) / Mag();
+}
+
+double Point3D::GetScattering() const
+{
+	return fScattering;
+}
+void Point3D::SetScattering(double val)
+{
+	fScattering = val;
 }
 /*
 Point3D Point3D::operator += (Point3D obj){

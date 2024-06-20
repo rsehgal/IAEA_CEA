@@ -69,9 +69,12 @@ Point3D POCA_V2( Track track1,  Track track2) {
     double sc = (b * e - c * d) / (a * c - b * b);
     double tc = (a * e - b * d) / (a * c - b * b);
 
+	double scattering = track1.Angle(track2);
+
     Point3D poca((p1.GetX() + sc * dp1.GetX()),
 				(p1.GetY() + sc * dp1.GetY()),
-                (p1.GetZ() + sc * dp1.GetZ()));
+                (p1.GetZ() + sc * dp1.GetZ()),
+				scattering);
 
     return poca;
 }

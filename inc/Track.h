@@ -38,6 +38,13 @@ public:
   double GetTrackLength() const {return fTrackLength;}
   void Print(){fP1.Print(); std::cout<<" : " ; fP2.Print();}
 
+  double Angle(Track tr){
+    Point3D incoming = fP1-fP2;
+    Point3D outgoing = tr.fP1-tr.fP2;
+    double cosTheta = incoming.Dot(outgoing)/(incoming.Mag()*outgoing.Mag());
+    return std::acos(cosTheta);
+  }
+
   //Overloading operator
   void operator = (const Track &newVal);
 
