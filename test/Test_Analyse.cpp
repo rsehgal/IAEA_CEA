@@ -11,12 +11,15 @@
 #include <vector>
 #include <TApplication.h>
 #include <TCanvas.h>
+#include <Track.h>
 int main(int argc, char *argv[])
 {
   TApplication *fApp = new TApplication("fApp", NULL, NULL);
   T t;
-  // t.Loop();
-  std::vector<Point3D *> vecOfPoint3D = t.GetMuonTrack(20);
+  std::cout << "Total Entries : " << t.fChain->GetEntries() << std::endl;
+  t.Loop();
+  return 0;
+  std::vector<Point3D *> vecOfPoint3D = t.GetMuonTrack(2);
   for (unsigned int i = 0; i < vecOfPoint3D.size(); i++)
   {
     std::cout << "------------------------------------" << std::endl;
@@ -35,6 +38,13 @@ int main(int argc, char *argv[])
     vecOfGraphs[i]->SetMarkerStyle(8);
     vecOfGraphs[i]->Draw("ap");
   }
+
+  std::vector<Track*> vecOfTracks = GetIncomingAndOutgoingTracks(vecOfPoint3D);
+  std::cout <<"====== Incoming ================" << std::endl;
+  vecOfTracks[0]->Print();
+  std::cout <<"====== Outgoing ================" << std::endl;
+  vecOfTracks[1]->Print();
+
 
   fApp->Run();
 

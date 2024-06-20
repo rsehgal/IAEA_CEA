@@ -65,13 +65,13 @@ void T::Loop()
       // if (Cut(ientry) < 0) continue;
       for (unsigned short i = 0; i < 8; i += 2)
       {
-         /*for(unsigned short j=0;j<300;j++){
+         for(unsigned short j=0;j<300;j++){
             std::cout << MGv3_ClusSize[i][j] <<",";
          }
          std::cout <<"----------------------------------------" << std::endl;
          for(unsigned short j=0;j<300;j++){
             std::cout << MGv3_ClusPos[i][j] <<",";
-         }*/
+         }
          std::cout << MGv3_ClusPos[i][0] << "," << MGv3_ClusPos[i + 1][0] << std::endl;
 
          std::cout << std::endl

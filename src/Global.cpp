@@ -5,5 +5,5 @@
 */
 #include<iostream>
 #include <vector>
-std::vector<double> vecOfZPos = {-400., -300., 300., 400.};
+std::vector<double> vecOfZPos = {-280, -60., 370., 590.};
 

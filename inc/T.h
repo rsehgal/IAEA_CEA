@@ -77,7 +77,7 @@ T::T(TTree *tree) : fChain(0)
       if (!f || !f->IsOpen()) {
          f = new TFile("../iaea1_Pb_run03_analyse.root");
       }
-      f->GetObject("T",tree);
+      f->GetObject("T;779",tree);
 
    }
    Init(tree);

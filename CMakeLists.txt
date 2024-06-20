@@ -31,3 +31,12 @@ target_link_libraries(ABData ${ROOT_LIBRARIES})
 add_executable(Test_Analyse test/Test_Analyse.cpp ${sources} )
 target_link_libraries(Test_Analyse ${ROOT_LIBRARIES} ABData) 
 
+add_executable(Test_Track test/Test_Track.cpp ${sources} )
+target_link_libraries(Test_Track ${ROOT_LIBRARIES} ABData) 
+
+add_executable(Test_POCA test/Test_POCA.cpp ${sources} )
+target_link_libraries(Test_POCA ${ROOT_LIBRARIES} ABData) 
+
+add_executable(ProcessTree test/ProcessTree.cpp ${sources} )
+target_link_libraries(ProcessTree ${ROOT_LIBRARIES} ABData) 
+
