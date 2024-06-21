@@ -40,6 +40,15 @@ public:
 	double Mag2();
 	double Mag();
 	Point3D Unit();
+	void SetX(double val){
+		fX = val;
+	}
+	void SetY(double val){
+		fY = val;
+	}
+	void SetZ(double val){
+		fZ = val;
+	}
 
 	Point3D operator+(Point3D);
 	Point3D operator-(Point3D);

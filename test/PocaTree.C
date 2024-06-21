@@ -1,3 +1,4 @@
+void PocaTree(char *filename)
 {
   //////////////////////////////////////////////////////////
   //   This file has been automatically generated
@@ -16,13 +17,14 @@
   */
 
   //TFile *f = new TFile("Poca_full.root", "r");
-  TFile *f = new TFile("Poca.root", "r");
+  TFile *f = new TFile(filename, "r");
   TTree *PocaTree = (TTree *)f->Get("PocaTree");
   // Declaration of leaves types
   Double_t fX;
   Double_t fY;
   Double_t fZ;
   Double_t fScattering;
+         gStyle->SetPalette(kRainBow);
 
   // Set branch addresses.
   // PocaTree->SetBranchAddress("Poca",&Poca);
@@ -105,7 +107,7 @@ for (unsigned int i = 0; i < hist2->GetNbinsX(); i++) {
     for (unsigned int j = 0; j < hist3->GetNbinsY(); j++) {
       for (unsigned int k = 0; k < hist3->GetNbinsZ(); k++) {
         double binCon = hist3->GetBinContent(i, j, k);
-        if (binCon < 2.) {
+        if (binCon < 5.) {
           hist3New->SetBinContent(i, j, k, 0.);
         } else {
           hist3New->SetBinContent(i, j, k, binCon);

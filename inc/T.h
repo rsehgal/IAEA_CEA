@@ -12,6 +12,7 @@
 #include <TChain.h>
 #include <TFile.h>
 #include "Point3D.h"
+#include <string>
 // Header file for the classes stored in the TTree if any.
 
 
@@ -53,6 +54,7 @@ public :
    TBranch        *b_MGv3_ClusMaxStrip;   //!
 
    T(TTree *tree=0);
+   T(std::string filename);
    virtual ~T();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
@@ -73,13 +75,22 @@ T::T(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("../iaea1_Pb_run03_analyse.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("../iaea3_Pb_run04_analyse.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("../iaea1_Pb_run03_analyse.root");
+         //f = new TFile("../iaea1_Pb_run03_analyse.root");
+         //f = new TFile("../iaea3_Pb_run02_analyse.root");
+         f = new TFile("../iaea3_Pb_run04_analyse.root");
+         //iaea3_Pb_run02_analyse
       }
-      f->GetObject("T;779",tree);
+      f->GetObject("T",tree);
 
    }
+   Init(tree);
+}
+
+T::T(std::string filename){
+   TFile *f = new TFile(filename.c_str(),"r");
+   TTree *tree = (TTree*)f->Get("T");
    Init(tree);
 }
 

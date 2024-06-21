@@ -47,6 +47,7 @@ public:
 
   //Overloading operator
   void operator = (const Track &newVal);
+  double GetZenithAngle();
 
   ~Track();
 };

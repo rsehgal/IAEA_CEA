@@ -51,3 +51,7 @@ void Track::operator=(const Track &newVal)
 	this->fDirectionRatio = newVal.fDirectionRatio;
 }
 
+double Track::GetZenithAngle(){
+	Track ref(Point3D(0.,0.,0.),Point3D(0.,0.,-10));
+	return this->Angle(ref);
+}

@@ -21,8 +21,13 @@ int main(int argc, char *argv[])
   Point3D pocaPt;
   TFile *outfile = new TFile("Poca.root", "RECREATE");
   TTree *fTree = new TTree("PocaTree", "PocaTree");
+  
+  double angleIn =0.;
+  double angleOut =0.;
   fTree->Branch("Poca", &pocaPt);
-  T t;
+  fTree->Branch("AngleIncoming", &angleIn);
+  fTree->Branch("AngleOutgoing", &angleOut);
+  T t(argv[1]);
   std::cout << "Total Entries : " << t.fChain->GetEntries() << std::endl;
   TH2F *hist = new TH2F("Recons", "Recons", 100, 0, 800, 100, 0, 800);
   // t.Loop();
@@ -38,9 +43,15 @@ int main(int argc, char *argv[])
     Track outgoing = *vecOfTracks[1];
     // Point3D poca = POCA_V2(incoming, outgoing);
     pocaPt = POCA_V2(incoming, outgoing);
+    angleIn = incoming.GetZenithAngle();
+    angleOut = outgoing.GetZenithAngle();
     // poca.Print();
     if (pocaPt.GetScattering() > 0.001)
     {
+      //pocaPt = pocaPt*0.68;
+      pocaPt.SetX(pocaPt.GetX()*0.68);
+      pocaPt.SetY(pocaPt.GetY()*0.68);
+      pocaPt.SetZ(pocaPt.GetZ()*0.68);
       hist->Fill(pocaPt.GetX(), pocaPt.GetY());
       fTree->Fill();
     }
