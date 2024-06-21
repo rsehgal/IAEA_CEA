@@ -15,7 +15,8 @@
       f->GetObject("PocaTree",tree);
   */
 
-  TFile *f = new TFile("Poca_full.root", "r");
+  //TFile *f = new TFile("Poca_full.root", "r");
+  TFile *f = new TFile("Poca.root", "r");
   TTree *PocaTree = (TTree *)f->Get("PocaTree");
   // Declaration of leaves types
   Double_t fX;
@@ -47,9 +48,11 @@
 
   int nbinsz = 50;
   int zlow = 0;
-  int zhigh = 200;
+  int zhigh = 300;
 
       TH2F *hist2 = new TH2F("Recons2D", "Recons2D", nbinsx,xlow,xhigh,nbinsy,ylow,yhigh);
+      TH2F *hist2YZ = new TH2F("Recons2D_YZ", "Recons2D_YZ", nbinsy,ylow,yhigh,nbinsz,zlow,zhigh);
+      TH2F *hist2XZ = new TH2F("Recons2D_XZ", "Recons2D_XZ", nbinsx,xlow,xhigh,nbinsz,zlow,zhigh);
   TH3F *hist3 = new TH3F("Recons3D", "Recons3D", nbinsx, xlow, xhigh, nbinsy,
                          ylow, yhigh, nbinsz, zlow, zhigh);
 
@@ -60,16 +63,26 @@
     // std::cout << fScattering << " : " << fX <<" : " << fY << std::endl;
     // if(fScattering < 0.32 || fScattering > 0.36)
     // if(fScattering > 0.2  && fScattering < 1.)
-    if (fZ > 0. && fZ < 100.) {
-      if (fScattering > 0.04) {
+    if (fZ > 0. && fZ < 250.) 
+    {
+      if (fScattering > 0.04) 
+	{
         counter++;
         hist2->Fill(fX, fY);
+        hist2YZ->Fill(fY, fZ);
+        hist2XZ->Fill(fX, fZ);
         hist3->Fill(fX, fY, fZ);
       }
     }
   }
   new TCanvas("Reconstruction 2D", "Reconstruction 2D");
   hist2->Draw();
+  new TCanvas("Reconstruction 2D YZ", "Reconstruction 2D YZ");
+  hist2YZ->Draw();
+  new TCanvas("Reconstruction 2D XZ", "Reconstruction 2D XZ");
+  hist2XZ->Draw();
+
+
   new TCanvas("Reconstruction 3D", "Reconstruction 3D");
   hist3->Draw();
       TH2F *hist2New = new TH2F("Recons2DFiltered", "Recons2DFiltered", nbinsx,xlow,xhigh,nbinsy,ylow,yhigh);
