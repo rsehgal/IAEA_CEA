@@ -40,3 +40,6 @@ target_link_libraries(Test_POCA ${ROOT_LIBRARIES} ABData)
 add_executable(ProcessTree test/ProcessTree.cpp ${sources} )
 target_link_libraries(ProcessTree ${ROOT_LIBRARIES} ABData) 
 
+add_executable(ProcessTree_Transmission test/ProcessTree_Transmission.cpp ${sources} )
+target_link_libraries(ProcessTree_Transmission ${ROOT_LIBRARIES} ABData) 
+

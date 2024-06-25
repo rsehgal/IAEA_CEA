@@ -13,9 +13,12 @@
 #include <vector>
 #include <TApplication.h>
 #include <TCanvas.h>
+#include <TTree.h>
+#include <TF1.h>
 
 int main(int argc, char *argv[])
 {
+
     // TApplication *fApp = new TApplication("fApp", NULL, NULL);
     {
         /*
@@ -31,7 +34,8 @@ int main(int argc, char *argv[])
     }
 
     T t;
-    std::vector<Point3D *> vecOfPoint3D = t.GetMuonTrack(2);
+    Point3D pocaPt;
+    std::vector<Point3D *> vecOfPoint3D = t.GetMuonTrack(12);
     /*std::vector<Point3D*> vecOfPoint3D;
     vecOfPoint3D.push_back(new Point3D(5.,-5.,10.));
     vecOfPoint3D.push_back(new Point3D(10.,0.,10.));
@@ -45,8 +49,9 @@ int main(int argc, char *argv[])
     incoming.Print();
     std::cout << "====== Outgoing =========" << std::endl;
     outgoing.Print();
-    Point3D poca = POCA_V2(incoming, outgoing);
+    // Point3D poca = POCA_V2(incoming, outgoing);
+    pocaPt = POCA_V2(incoming, outgoing);
     std::cout << "======= POCA Point ================" << std::endl;
-    poca.Print();
+    pocaPt.Print();
     // fApp->Run();
 }
