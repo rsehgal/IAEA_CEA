@@ -65,6 +65,8 @@ public :
    virtual void     Show(Long64_t entry = -1);
 
    std::vector<Point3D*> GetMuonTrack(unsigned int trackIndex);
+   std::vector<unsigned short> GetVectorOfClusterSize(unsigned int trackIndex);
+
 };
 
 #endif

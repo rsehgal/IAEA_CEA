@@ -24,6 +24,15 @@ std::vector<Point3D*> T::GetMuonTrack(unsigned int trackIndex)
 
 }
 
+std::vector<unsigned short> T::GetVectorOfClusterSize(unsigned int trackIndex){
+   std::vector<unsigned short> vecOfClusterSize;
+   int val = GetEntry(trackIndex);
+   for(unsigned short i = 0 ; i < 8 ; i++){
+      vecOfClusterSize.push_back(MGv3_ClusSize[i][0]);
+   }
+   return vecOfClusterSize;
+}
+
 void T::Loop()
 {
    //   In a ROOT session, you can do:

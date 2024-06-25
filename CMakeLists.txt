@@ -43,3 +43,6 @@ target_link_libraries(ProcessTree ${ROOT_LIBRARIES} ABData)
 add_executable(ProcessTree_Transmission test/ProcessTree_Transmission.cpp ${sources} )
 target_link_libraries(ProcessTree_Transmission ${ROOT_LIBRARIES} ABData) 
 
+add_executable(Test_ClusterSize test/Test_ClusterSize.cpp ${sources} )
+target_link_libraries(Test_ClusterSize ${ROOT_LIBRARIES} ABData) 
+

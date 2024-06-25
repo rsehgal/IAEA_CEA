@@ -27,6 +27,7 @@ Point3D::Point3D(const Point3D &pt)
 	fX = pt.fX;
 	fY = pt.fY;
 	fZ = pt.fZ;
+	fScattering = pt.fScattering;
 }
 
 Point3D::~Point3D()
