@@ -82,7 +82,7 @@ Point3D POCA_V2(Track track1, Track track2)
 	// std::cout << "Scattering : " << scattering << std::endl;
 	poca.SetX(poca.GetX() * 0.68);
 	poca.SetY(poca.GetY() * 0.68);
-	//poca.SetZ(pocaPt.GetZ() * 0.68);
+	// poca.SetZ(pocaPt.GetZ() * 0.68);
 
 	return poca;
 }
@@ -167,9 +167,34 @@ TH2F *GetMeanScatteringHist(std::vector<Point3D> vecOfPocaPt)
 	{
 		for (unsigned int j = 0; j < hist2Count->GetNbinsY(); j++)
 		{
-			hist2Scattering->SetBinContent(i,j,hist2Scattering->GetBinContent(i,j)/hist2Count->GetBinContent(i,j));
+			hist2Scattering->SetBinContent(i, j, hist2Scattering->GetBinContent(i, j) / hist2Count->GetBinContent(i, j));
 		}
 	}
 
 	return hist2Scattering;
+}
+
+extern std::vector<TH2F *> GetVectorOfSlices(std::vector<Point3D> vecOfPocaPt, unsigned short numOfSlices)
+{
+	std::vector<TH2F *> vecOfSlices;
+	unsigned int nbinsx = 200;
+	unsigned short xlow = 0;
+	unsigned short xhigh = 500;
+	unsigned int nbinsy = 200;
+	unsigned short ylow = 0;
+	unsigned short yhigh = 500;
+	unsigned int sliceThickness = (vecOfZPos[2] - vecOfZPos[1]) / numOfSlices;
+	for (unsigned short sliceIndex = 0; sliceIndex < numOfSlices; sliceIndex++)
+	{
+		std::string sliceName = "Slice_" + std::to_string(sliceIndex);
+		vecOfSlices.push_back(new TH2F(sliceName.c_str(), sliceName.c_str(), nbinsx, xlow, xhigh, nbinsy, ylow, yhigh));
+	}
+
+	for (unsigned int i = 0; i < vecOfPocaPt.size(); i++)
+	{
+		unsigned short sliceIndex = vecOfPocaPt[i].GetZ() / sliceThickness;
+		if (sliceIndex < numOfSlices)
+			vecOfSlices[sliceIndex]->Fill(vecOfPocaPt[i].GetX(), vecOfPocaPt[i].GetY());
+	}
+	return vecOfSlices;
 }

@@ -15,6 +15,7 @@
 #include <TH2F.h>
 #include <TTree.h>
 #include <TFile.h>
+#include <TStyle.h>
 int main(int argc, char *argv[])
 {
   TApplication *fApp = new TApplication("fApp", NULL, NULL);
@@ -22,6 +23,7 @@ int main(int argc, char *argv[])
   TFile *outfile = new TFile("Poca.root", "RECREATE");
   TTree *fTree = new TTree("PocaTree", "PocaTree");
 
+  gStyle->SetPalette(kRainBow);
   double angleIn = 0.;
   double angleOut = 0.;
   fTree->Branch("Poca", &pocaPt);
@@ -77,6 +79,9 @@ int main(int argc, char *argv[])
     }
   }
 
+  unsigned short numOfSlices = 8;
+  std::vector<TH2F *> vecOfSlices = GetVectorOfSlices(vecOfPocaPt, numOfSlices);
+
   hist->Draw();
   outfile->cd();
 
@@ -99,6 +104,11 @@ int main(int argc, char *argv[])
   diffY->Write();
   hist->Write();
   histScattering->Write();
+
+  for (unsigned int i = 0; i < vecOfSlices.size(); i++)
+  {
+    vecOfSlices[i]->Write();
+  }
   fTree->Write();
   outfile->Close();
   fApp->Run();

@@ -21,4 +21,5 @@ extern std::vector<Track*> GetIncomingAndOutgoingTracks(std::vector<Point3D*> ve
 extern Track* GetIncomingTrack(std::vector<Point3D*> vecOfPoint3D);
 extern Track* GetOutgoingTrack(std::vector<Point3D*> vecOfPoint3D);
 extern TH2F* GetMeanScatteringHist(std::vector<Point3D> vecOfPocaPt);
+extern std::vector<TH2F*> GetVectorOfSlices(std::vector<Point3D> vecOfPocaPt, unsigned short numOfSlices=1);
 #endif
