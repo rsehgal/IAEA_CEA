@@ -1,22 +1,6 @@
 void PocaTree(char *filename)
 {
-  //////////////////////////////////////////////////////////
-  //   This file has been automatically generated
-  //     (Thu Jun 20 16:23:51 2024 by ROOT version6.30/02)
-  //   from TTree PocaTree/PocaTree
-  //   found on file: Poca.root
-  //////////////////////////////////////////////////////////
-
-  // Reset ROOT and connect tree file
-  /*   gROOT->Reset();
-     TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("Poca.root");
-     if (!f) {
-        f = new TFile("Poca.root");
-     }
-      f->GetObject("PocaTree",tree);
-  */
-
-  //TFile *f = new TFile("Poca_full.root", "r");
+  // TFile *f = new TFile("Poca_full.root", "r");
   TFile *f = new TFile(filename, "r");
   TTree *PocaTree = (TTree *)f->Get("PocaTree");
   // Declaration of leaves types
@@ -24,7 +8,7 @@ void PocaTree(char *filename)
   Double_t fY;
   Double_t fZ;
   Double_t fScattering;
-         gStyle->SetPalette(kRainBow);
+  gStyle->SetPalette(kRainBow);
 
   // Set branch addresses.
   // PocaTree->SetBranchAddress("Poca",&Poca);
@@ -52,23 +36,24 @@ void PocaTree(char *filename)
   int zlow = 0;
   int zhigh = 300;
 
-      TH2F *hist2 = new TH2F("Recons2D", "Recons2D", nbinsx,xlow,xhigh,nbinsy,ylow,yhigh);
-      TH2F *hist2YZ = new TH2F("Recons2D_YZ", "Recons2D_YZ", nbinsy,ylow,yhigh,nbinsz,zlow,zhigh);
-      TH2F *hist2XZ = new TH2F("Recons2D_XZ", "Recons2D_XZ", nbinsx,xlow,xhigh,nbinsz,zlow,zhigh);
+  TH2F *hist2 = new TH2F("Recons2D", "Recons2D", nbinsx, xlow, xhigh, nbinsy, ylow, yhigh);
+  TH2F *hist2YZ = new TH2F("Recons2D_YZ", "Recons2D_YZ", nbinsy, ylow, yhigh, nbinsz, zlow, zhigh);
+  TH2F *hist2XZ = new TH2F("Recons2D_XZ", "Recons2D_XZ", nbinsx, xlow, xhigh, nbinsz, zlow, zhigh);
   TH3F *hist3 = new TH3F("Recons3D", "Recons3D", nbinsx, xlow, xhigh, nbinsy,
                          ylow, yhigh, nbinsz, zlow, zhigh);
 
   Long64_t nbytes = 0;
   unsigned int counter = 0;
-  for (Long64_t i = 0; i < nentries; i++) {
+  for (Long64_t i = 0; i < nentries; i++)
+  {
     nbytes += PocaTree->GetEntry(i);
     // std::cout << fScattering << " : " << fX <<" : " << fY << std::endl;
     // if(fScattering < 0.32 || fScattering > 0.36)
     // if(fScattering > 0.2  && fScattering < 1.)
-    if (fZ > 0. && fZ < 250.) 
+    if (fZ > 0. && fZ < 250.)
     {
-      if (fScattering > 0.04) 
-	{
+      if (fScattering > 0.04)
+      {
         counter++;
         hist2->Fill(fX, fY);
         hist2YZ->Fill(fY, fZ);
@@ -84,32 +69,42 @@ void PocaTree(char *filename)
   new TCanvas("Reconstruction 2D XZ", "Reconstruction 2D XZ");
   hist2XZ->Draw();
 
-
   new TCanvas("Reconstruction 3D", "Reconstruction 3D");
   hist3->Draw();
-      TH2F *hist2New = new TH2F("Recons2DFiltered", "Recons2DFiltered", nbinsx,xlow,xhigh,nbinsy,ylow,yhigh);
+  TH2F *hist2New = new TH2F("Recons2DFiltered", "Recons2DFiltered", nbinsx, xlow, xhigh, nbinsy, ylow, yhigh);
   TH3F *hist3New =
       new TH3F("Recons3DFiltered", "Recons3DFiltered", nbinsx, xlow, xhigh,
                nbinsy, ylow, yhigh, nbinsz, zlow, zhigh);
 
-for (unsigned int i = 0; i < hist2->GetNbinsX(); i++) {
-    for (unsigned int j = 0; j < hist2->GetNbinsY(); j++) {
-        double binCon = hist2->GetBinContent(i, j);
-        if (binCon < 5.) {
-          hist2New->SetBinContent(i, j, 0.);
-        } else {
-          hist2New->SetBinContent(i, j, binCon);
-        }
+  for (unsigned int i = 0; i < hist2->GetNbinsX(); i++)
+  {
+    for (unsigned int j = 0; j < hist2->GetNbinsY(); j++)
+    {
+      double binCon = hist2->GetBinContent(i, j);
+      if (binCon < 5.)
+      {
+        hist2New->SetBinContent(i, j, 0.);
+      }
+      else
+      {
+        hist2New->SetBinContent(i, j, binCon);
       }
     }
+  }
 
-  for (unsigned int i = 0; i < hist3->GetNbinsX(); i++) {
-    for (unsigned int j = 0; j < hist3->GetNbinsY(); j++) {
-      for (unsigned int k = 0; k < hist3->GetNbinsZ(); k++) {
+  for (unsigned int i = 0; i < hist3->GetNbinsX(); i++)
+  {
+    for (unsigned int j = 0; j < hist3->GetNbinsY(); j++)
+    {
+      for (unsigned int k = 0; k < hist3->GetNbinsZ(); k++)
+      {
         double binCon = hist3->GetBinContent(i, j, k);
-        if (binCon < 5.) {
+        if (binCon < 5.)
+        {
           hist3New->SetBinContent(i, j, k, 0.);
-        } else {
+        }
+        else
+        {
           hist3New->SetBinContent(i, j, k, binCon);
         }
       }

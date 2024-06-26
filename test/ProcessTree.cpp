@@ -16,11 +16,24 @@
 #include <TTree.h>
 #include <TFile.h>
 #include <TStyle.h>
+#include "Global.h"
 int main(int argc, char *argv[])
 {
   TApplication *fApp = new TApplication("fApp", NULL, NULL);
   Point3D pocaPt;
-  TFile *outfile = new TFile("Poca.root", "RECREATE");
+  T t(argv[1]);
+  unsigned int numOfEvents = std::atoi(argv[2]);
+  std::cout << "Total Entries : " << t.fChain->GetEntries() << std::endl;
+  TH2F *hist = new TH2F("Recons", "Recons", nbinsx, xlow, xhigh, nbinsy, ylow, yhigh);
+  // t.Loop();
+  unsigned long int nentries = t.fChain->GetEntries();
+  // nentries = 200000;
+
+  if (numOfEvents > 0)
+    nentries = numOfEvents;
+
+  std::string outfileName = "Poca_" + std::to_string(nentries)+".root";
+  TFile *outfile = new TFile(outfileName.c_str(), "RECREATE");
   TTree *fTree = new TTree("PocaTree", "PocaTree");
 
   gStyle->SetPalette(kRainBow);
@@ -29,16 +42,6 @@ int main(int argc, char *argv[])
   fTree->Branch("Poca", &pocaPt);
   fTree->Branch("AngleIncoming", &angleIn);
   fTree->Branch("AngleOutgoing", &angleOut);
-  T t(argv[1]);
-  unsigned int numOfEvents = std::atoi(argv[2]);
-  std::cout << "Total Entries : " << t.fChain->GetEntries() << std::endl;
-  TH2F *hist = new TH2F("Recons", "Recons", 100, 0, 800, 100, 0, 800);
-  // t.Loop();
-  unsigned long int nentries = t.fChain->GetEntries();
-  // nentries = 200000;
-
-  if (numOfEvents > 0)
-    nentries = numOfEvents;
 
   TH1F *diffX = new TH1F("DiffX", "DiffY", 100, 0., 2.);
   TH1F *diffY = new TH1F("DiffX", "DiffY", 100, 0., 2.);
@@ -65,14 +68,8 @@ int main(int argc, char *argv[])
     angleIn = incoming.GetZenithAngle();
     angleOut = outgoing.GetZenithAngle();
     // pocaPt.Print();
-    //  if (pocaPt.GetScattering() > 0.001)
+    if (pocaPt.GetScattering() > 0.003)
     {
-      // pocaPt = pocaPt*0.68;
-      /*
-      pocaPt.SetX(pocaPt.GetX() * 0.68);
-      pocaPt.SetY(pocaPt.GetY() * 0.68);
-      pocaPt.SetZ(pocaPt.GetZ() * 0.68);
-      */
       hist->Fill(pocaPt.GetX(), pocaPt.GetY());
       fTree->Fill();
       vecOfPocaPt.push_back(pocaPt);

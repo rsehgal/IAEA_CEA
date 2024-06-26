@@ -177,10 +177,10 @@ TH2F *GetMeanScatteringHist(std::vector<Point3D> vecOfPocaPt)
 extern std::vector<TH2F *> GetVectorOfSlices(std::vector<Point3D> vecOfPocaPt, unsigned short numOfSlices)
 {
 	std::vector<TH2F *> vecOfSlices;
-	unsigned int nbinsx = 200;
+	unsigned int nbinsx = 100;
 	unsigned short xlow = 0;
 	unsigned short xhigh = 500;
-	unsigned int nbinsy = 200;
+	unsigned int nbinsy = 100;
 	unsigned short ylow = 0;
 	unsigned short yhigh = 500;
 	unsigned int sliceThickness = (vecOfZPos[2] - vecOfZPos[1]) / numOfSlices;
