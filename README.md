@@ -1,5 +1,7 @@
 Code to read MT Data
 
+Now also added logic to view slices.
+
 Step to compile the code
 
 1) Download the code zip file or clone it with following command  
