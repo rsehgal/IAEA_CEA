@@ -9,7 +9,8 @@
 #include "Point3D.h"
 #include <vector>
 #include "Global.h"
-
+#include <TGraph2D.h>
+#include <TF2.h>
 using Vec_t = Point3D;
 using Precision = double;
 
@@ -28,9 +29,9 @@ std::vector<TGraph *> GetMuonTrack_Graph(std::vector<Point3D *> vecOfPoint3D)
 	std::vector<TGraph *> vecOfGraphs;
 	for (unsigned int i = 0; i < vecOfPoint3D.size(); i++)
 	{
-		vecOfXPos.push_back(vecOfPoint3D[i]->GetX());
-		vecOfYPos.push_back(vecOfPoint3D[i]->GetY());
-		zPosVec.push_back(vecOfPoint3D[i]->GetZ());
+		vecOfXPos.push_back(vecOfPoint3D[i]->GetX()/cm);
+		vecOfYPos.push_back(vecOfPoint3D[i]->GetY()/cm);
+		zPosVec.push_back(vecOfPoint3D[i]->GetZ()/cm);
 	}
 	vecOfGraphs.push_back(new TGraph(vecOfPoint3D.size(), &vecOfXPos[0], &zPosVec[0]));
 	vecOfGraphs.push_back(new TGraph(vecOfPoint3D.size(), &vecOfYPos[0], &zPosVec[0]));
@@ -177,12 +178,7 @@ TH2F *GetMeanScatteringHist(std::vector<Point3D> vecOfPocaPt)
 extern std::vector<TH2F *> GetVectorOfSlices(std::vector<Point3D> vecOfPocaPt, unsigned short numOfSlices)
 {
 	std::vector<TH2F *> vecOfSlices;
-	unsigned int nbinsx = 100;
-	unsigned short xlow = 0;
-	unsigned short xhigh = 500;
-	unsigned int nbinsy = 100;
-	unsigned short ylow = 0;
-	unsigned short yhigh = 500;
+	
 	unsigned int sliceThickness = (vecOfZPos[2] - vecOfZPos[1]) / numOfSlices;
 	for (unsigned short sliceIndex = 0; sliceIndex < numOfSlices; sliceIndex++)
 	{
@@ -197,4 +193,48 @@ extern std::vector<TH2F *> GetVectorOfSlices(std::vector<Point3D> vecOfPocaPt, u
 			vecOfSlices[sliceIndex]->Fill(vecOfPocaPt[i].GetX(), vecOfPocaPt[i].GetY());
 	}
 	return vecOfSlices;
+}
+
+double plane(double *v, double *par) {
+    double x = v[0];
+    double y = v[1];
+    return par[0]*x + par[1]*y + par[2];
+}
+
+TF2* fit3D() {
+    // Load data points into TGraph2D
+    TGraph2D *graph = new TGraph2D("data.txt"); // Assuming data.txt contains your data in the format: x y z
+
+    // Define the fitting function
+    TF2 *fitFcn = new TF2("fitFcn", plane, 0, 500, 0, 50, 3); // Adjust the range as needed
+
+    // Perform the fit
+    graph->Fit("fitFcn","q");
+	return fitFcn;
+
+	/*
+    // Draw the results
+    TCanvas *c1 = new TCanvas("c1", "3D Fit", 800, 600);
+    graph->Draw("P0");
+    fitFcn->Draw("SAME");
+    c1->Update();
+	*/
+}
+
+double GetX(TF2 *fit, Point3D pt){
+	double a = fit->GetParameter(0);
+	double b = fit->GetParameter(1);
+	double c = fit->GetParameter(2);
+
+	return (pt.GetZ()-b*pt.GetY()-c)/a;
+
+}
+
+double GetY(TF2 *fit, Point3D pt){
+	double a = fit->GetParameter(0);
+	double b = fit->GetParameter(1);
+	double c = fit->GetParameter(2);
+
+	return (pt.GetZ()-a*pt.GetX()-c)/b;
+
 }

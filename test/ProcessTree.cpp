@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
   fTree->Branch("AngleIncoming", &angleIn);
   fTree->Branch("AngleOutgoing", &angleOut);
 
-  TH1F *diffX = new TH1F("DiffX", "DiffY", 100, 0., 2.);
-  TH1F *diffY = new TH1F("DiffX", "DiffY", 100, 0., 2.);
+  // TH1F *diffX = new TH1F("DiffX", "DiffY", 100, 0., 2.);
+  // TH1F *diffY = new TH1F("DiffX", "DiffY", 100, 0., 2.);
   std::vector<Point3D> vecOfPocaPt;
   for (unsigned int i = 0; i < nentries; i++)
   {
@@ -82,12 +82,12 @@ int main(int argc, char *argv[])
   hist->Draw();
   outfile->cd();
 
-  TCanvas *canDiff = new TCanvas("DiffCanvas", "DiffCanvas");
-  canDiff->Divide(2, 1);
-  canDiff->cd(1);
-  diffX->Draw();
-  canDiff->cd(2);
-  diffY->Draw();
+  // TCanvas *canDiff = new TCanvas("DiffCanvas", "DiffCanvas");
+  // canDiff->Divide(2, 1);
+  // canDiff->cd(1);
+  // diffX->Draw();
+  // canDiff->cd(2);
+  // diffY->Draw();
 
   /*for(unsigned int i =0 ; i < vecOfPocaPt.size(); i++){
     vecOfPocaPt[i].Print();
@@ -97,8 +97,8 @@ int main(int argc, char *argv[])
   canScattering->cd();
   histScattering->Draw();
 
-  diffX->Write();
-  diffY->Write();
+  // diffX->Write();
+  // diffY->Write();
   hist->Write();
   histScattering->Write();
 

@@ -58,11 +58,21 @@ int main(int argc, char *argv[])
       formulaYZ->Draw("same");
   }
 
+  
   std::vector<Track *> vecOfTracks = GetIncomingAndOutgoingTracks(vecOfPoint3D);
   std::cout << "====== Incoming ================" << std::endl;
   vecOfTracks[0]->Print();
   std::cout << "====== Outgoing ================" << std::endl;
   vecOfTracks[1]->Print();
+
+  std::cout << "-------------------------------------" << std::endl;
+  double estX = formulaXZ->GetX(vecOfZPos[0]/cm);
+  double estY = formulaYZ->GetX(vecOfZPos[0]/cm);
+
+  std::cout <<"XZ : Chi2 : NDF :: " << formulaXZ->GetChisquare()<<" : " <<formulaXZ->GetNDF() << std::endl;
+  std::cout <<"YZ : Chi2 : NDF :: " << formulaYZ->GetChisquare()<<" : " <<formulaYZ->GetNDF() << std::endl;
+  std::cout << "Estimated : (" << estX <<" , "<< estY <<")" << std::endl; 
+
 
   fApp->Run();
 

@@ -31,6 +31,9 @@ target_link_libraries(ABData ${ROOT_LIBRARIES})
 add_executable(Test_Analyse test/Test_Analyse.cpp ${sources} )
 target_link_libraries(Test_Analyse ${ROOT_LIBRARIES} ABData) 
 
+add_executable(Test_Analyse_3DFit test/Test_Analyse_3DFit.cpp ${sources} )
+target_link_libraries(Test_Analyse_3DFit ${ROOT_LIBRARIES} ABData) 
+
 add_executable(Test_Track test/Test_Track.cpp ${sources} )
 target_link_libraries(Test_Track ${ROOT_LIBRARIES} ABData) 
 
@@ -42,6 +45,10 @@ target_link_libraries(ProcessTree ${ROOT_LIBRARIES} ABData)
 
 add_executable(ProcessTree_Transmission test/ProcessTree_Transmission.cpp ${sources} )
 target_link_libraries(ProcessTree_Transmission ${ROOT_LIBRARIES} ABData) 
+
+add_executable(ProcessTree_Transmission_3DFit test/ProcessTree_Transmission_3DFit.cpp ${sources} )
+target_link_libraries(ProcessTree_Transmission_3DFit ${ROOT_LIBRARIES} ABData) 
+
 
 add_executable(Test_ClusterSize test/Test_ClusterSize.cpp ${sources} )
 target_link_libraries(Test_ClusterSize ${ROOT_LIBRARIES} ABData) 

@@ -10,6 +10,8 @@
 #include <TGraph.h>
 #include <TF1.h>
 #include "Global.h"
+#include <TGraph2D.h>
+#include "Helpers.h"
 Track::Track()
 {
 	// TODO Auto-generated constructor stub
@@ -72,7 +74,8 @@ double Track::GetZenithAngle()
 TF1 *Track::GetFitFormula(std::vector<double> xvec, std::vector<double> yvec)
 {
 	TGraph *gr = new TGraph(xvec.size(), &xvec[0], &yvec[0]);
-	TF1 *formula = new TF1("pol1", "pol1", -300., 600.);
+	TF1 *formula = new TF1("pol1", "pol1", 0., 500. / cm);
+	// formula->SetParameter(0,1);
 	gr->Fit(formula, "q");
 	return formula;
 }
@@ -83,8 +86,8 @@ TF1 *Track::GetFitFormulaXZ()
 	std::vector<double> zvec;
 	for (unsigned short i = 0; i < fPocaPointVec.size(); i++)
 	{
-		xvec.push_back(fPocaPointVec[i]->GetX());
-		zvec.push_back(fPocaPointVec[i]->GetZ());
+		xvec.push_back(fPocaPointVec[i]->GetX() / cm);
+		zvec.push_back(fPocaPointVec[i]->GetZ() / cm);
 	}
 	return GetFitFormula(xvec, zvec);
 }
@@ -94,8 +97,8 @@ TF1 *Track::GetFitFormulaYZ()
 	std::vector<double> zvec;
 	for (unsigned short i = 0; i < fPocaPointVec.size(); i++)
 	{
-		yvec.push_back(fPocaPointVec[i]->GetY());
-		zvec.push_back(fPocaPointVec[i]->GetZ());
+		yvec.push_back(fPocaPointVec[i]->GetY() / cm);
+		zvec.push_back(fPocaPointVec[i]->GetZ() / cm);
 	}
 	return GetFitFormula(yvec, zvec);
 }
@@ -112,5 +115,32 @@ Point3D Track::GetHitPointAtPlane(unsigned short planeIndex)
 	std::vector<TF1 *> vecOfFitFormula = GetFitFormulaVector();
 	double x = vecOfFitFormula[0]->GetX(z);
 	double y = vecOfFitFormula[1]->GetX(z);
-	return Point3D(x,y,z);
+	return Point3D(x, y, z);
+}
+
+Point3D Track::GetHitPointAtLayer(unsigned short planeIndex)
+{
+	std::vector<double> xvec;
+	std::vector<double> yvec;
+	std::vector<double> zvec;
+
+	for (unsigned int i = 0; i < fPocaPointVec.size(); i++)
+	{
+		xvec.push_back(fPocaPointVec[i]->GetX());
+		yvec.push_back(fPocaPointVec[i]->GetY());
+		zvec.push_back(fPocaPointVec[i]->GetZ());
+	}
+
+	TGraph2D *gr = new TGraph2D(xvec.size(), &xvec[0], &yvec[0], &zvec[0]);
+	TF2 *fitFcn = new TF2("fitFcn", plane, 0, 500, 0, 500, 3); // Adjust the range as needed
+	gr->Fit("fitFcn", "q");
+
+	double x = GetX(fitFcn, *fPocaPointVec[planeIndex]);
+	double y = GetY(fitFcn, *fPocaPointVec[planeIndex]);
+
+	delete gr;
+	delete fitFcn;
+
+	Point3D fittedPt(x, y, fPocaPointVec[planeIndex]->GetZ());
+	return fittedPt;
 }

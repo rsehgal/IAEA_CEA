@@ -74,6 +74,7 @@ public:
   double GetZenithAngle();
   std::vector<TF1*> GetFitFormulaVector();
   Point3D GetHitPointAtPlane(unsigned short planeIndex);
+  Point3D GetHitPointAtLayer(unsigned short planeIndex);
 
   ~Track();
 };

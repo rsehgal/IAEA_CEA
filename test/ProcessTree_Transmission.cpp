@@ -15,6 +15,8 @@
 #include <TH2F.h>
 #include <TTree.h>
 #include <TFile.h>
+#include <TF1.h>
+#include "Global.h"
 int main(int argc, char *argv[])
 {
   TApplication *fApp = new TApplication("fApp", NULL, NULL);
@@ -28,28 +30,30 @@ int main(int argc, char *argv[])
   fTree->Branch("AngleIncoming", &angleIn);
   fTree->Branch("AngleOutgoing", &angleOut);
   T t(argv[1]);
-  unsigned int nbinsx = 50;
-  unsigned int nbinsy = 50;
+  unsigned int numOfEvents = std::atoi(argv[2]);
+
   std::cout << "Total Entries : " << t.fChain->GetEntries() << std::endl;
-  TH2F *histActual0 = new TH2F("ReconsActual_0", "ReconsActual_0", nbinsx, 0, 600, nbinsy, 0, 600);
-  TH2F *histActual3 = new TH2F("ReconsActual_3", "ReconsActual_3", nbinsx, 0, 600, nbinsy, 0, 600);
+  TH2F *histActual0 = new TH2F("ReconsActual_0", "ReconsActual_0", nbinsx, xlow, xhigh, nbinsy, ylow, yhigh);
+  TH2F *histActual3 = new TH2F("ReconsActual_3", "ReconsActual_3", nbinsx, xlow, xhigh, nbinsy, ylow, yhigh);
   TH2F *histExtrapolated = new TH2F("ReconsExtrapolated", "ReconsExtralpolated", 200, 0, 600, 200, 0, 600);
   // t.Loop();
-  unsigned long int nentries = t.fChain->GetEntries();
-  //nentries = 100000;
 
-  TH1F *diffX = new TH1F("DiffX", "DiffY", 100, 0., 2.);
-  TH1F *diffY = new TH1F("DiffY", "DiffY", 100, 0., 2.);
+  unsigned long int nentries = t.fChain->GetEntries();
+  // nentries = 100000;
+  if (numOfEvents > 0)
+    nentries = numOfEvents;
+
   for (unsigned int i = 0; i < nentries; i++)
   {
     if (!(i % 100000) && i != 0)
       std::cout << "Number of Events processed : " << i << std::endl;
     std::vector<Point3D *> vecOfPoint3D = t.GetMuonTrack(i);
     Track tr(vecOfPoint3D);
-
+    Point3D extrapolatedHit = tr.GetHitPointAtLayer(0);
+   
     Point3D actualHit0 = *vecOfPoint3D[0];
     Point3D actualHit3 = *vecOfPoint3D[3];
-
+    
     std::vector<Track *> vecOfTracks = GetIncomingAndOutgoingTracks(vecOfPoint3D);
     Track incoming = *vecOfTracks[0];
     Track outgoing = *vecOfTracks[1];
@@ -57,28 +61,18 @@ int main(int argc, char *argv[])
     angleIn = incoming.GetZenithAngle();
     angleOut = outgoing.GetZenithAngle();
 
-    pocaPt.Set(actualHit0.GetX(),actualHit0.GetY(),actualHit0.GetZ());
+    pocaPt.Set(actualHit0.GetX()*0.68, actualHit0.GetY()*0.68, actualHit0.GetZ(),angleIn);
 
     fTree->Fill();
-    if (angleIn > 0.1)
+    //if (angleIn < 0.4)
     {
       histActual0->Fill(actualHit0.GetX(), actualHit0.GetY());
       histActual3->Fill(actualHit3.GetX(), actualHit3.GetY());
-
     }
     // histExtrapolated->Fill(extrapolatedHit.GetX(),extrapolatedHit.GetY());
   }
 
   outfile->cd();
-
-  TCanvas *canDiff = new TCanvas("DiffCanvas", "DiffCanvas");
-  canDiff->Divide(2, 1);
-  canDiff->cd(1);
-  diffX->Draw();
-  canDiff->cd(2);
-  diffY->Draw();
-  diffX->Write();
-  diffY->Write();
 
   TCanvas *transCanvas = new TCanvas("Transmission_Canvas", "Transmision_Canvas");
   transCanvas->Divide(2, 1);

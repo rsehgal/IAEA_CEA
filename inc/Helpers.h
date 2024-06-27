@@ -11,6 +11,7 @@
 #include <vector>
 #include "Track.h"
 #include  <TH2F.h>
+#include <TF2.h>
 using Vec_t = Point3D;
 extern std::vector<TGraph *> GetMuonTrack_Graph(std::vector<Point3D *> vecOfPoint3D);
 extern std::vector<TGraph*> GetMuonTrack_Graph(Track *tr);
@@ -22,4 +23,8 @@ extern Track* GetIncomingTrack(std::vector<Point3D*> vecOfPoint3D);
 extern Track* GetOutgoingTrack(std::vector<Point3D*> vecOfPoint3D);
 extern TH2F* GetMeanScatteringHist(std::vector<Point3D> vecOfPocaPt);
 extern std::vector<TH2F*> GetVectorOfSlices(std::vector<Point3D> vecOfPocaPt, unsigned short numOfSlices=1);
+extern double plane(double *v, double *par);
+extern TF2* fit3D() ;
+extern double GetX(TF2 *fit, Point3D pt);
+extern double GetY(TF2 *fit, Point3D pt);
 #endif

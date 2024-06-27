@@ -18,4 +18,5 @@ extern unsigned short yhigh;
 extern unsigned int nbinsz;
 extern unsigned short zlow;
 extern unsigned short zhigh;
+extern double cm;
 #endif
