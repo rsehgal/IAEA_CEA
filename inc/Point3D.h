@@ -17,6 +17,9 @@ class Point3D
 
 	double fScattering;
 
+	//extra parameter to store some metadata
+	double fExtra;
+
 public:
 	Point3D();
 	Point3D(const Point3D &pt);
@@ -48,6 +51,10 @@ public:
 	}
 	void SetZ(double val){
 		fZ = val;
+	}
+
+	void SetExtra(double val){
+		fExtra = val;
 	}
 
 	Point3D operator+(Point3D);

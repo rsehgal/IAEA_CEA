@@ -43,6 +43,8 @@ int main(int argc, char *argv[])
   TF2 *fitFcn = new TF2("fitFcn", plane, 0, 500, 0, 50, 3); // Adjust the range as needed
   gr->Fit("fitFcn", "q");
 
+  std::cout <<"Chi2 : " << fitFcn->GetChisquare() << " : " << fitFcn->GetNDF() << std::endl;
+
   double x = GetX(fitFcn,*vecOfPoint3D[0]);
   double y = GetY(fitFcn,*vecOfPoint3D[0]);
 

@@ -138,9 +138,11 @@ Point3D Track::GetHitPointAtLayer(unsigned short planeIndex)
 	double x = GetX(fitFcn, *fPocaPointVec[planeIndex]);
 	double y = GetY(fitFcn, *fPocaPointVec[planeIndex]);
 
+	double chi2byNDF = fitFcn->GetChisquare()/(1.0*fitFcn->GetNDF());
 	delete gr;
 	delete fitFcn;
 
 	Point3D fittedPt(x, y, fPocaPointVec[planeIndex]->GetZ());
+	fittedPt.SetExtra(chi2byNDF);
 	return fittedPt;
 }

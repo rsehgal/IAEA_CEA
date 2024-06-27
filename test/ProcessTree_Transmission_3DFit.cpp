@@ -27,9 +27,12 @@ int main(int argc, char *argv[])
   gStyle->SetPalette(kRainBow);
 
   double fittedAngleIn = 0.;
+  double diffX=0.;
+  double diffY=0.;
   fTree->Branch("Pt", &pt);
   fTree->Branch("fitteAngleIn", &fittedAngleIn);
-
+  fTree->Branch("diffX", &diffX);
+  fTree->Branch("diffY", &diffY);
   T t(argv[1]);
   unsigned int numOfEvents = std::atoi(argv[2]);
 
@@ -54,6 +57,9 @@ int main(int argc, char *argv[])
     Track tr(vecOfPoint3D);
     Point3D extrapolatedHit0 = tr.GetHitPointAtLayer(0);
     Point3D extrapolatedHit3 = tr.GetHitPointAtLayer(3);
+
+    diffX = vecOfPoint3D[0]->GetX()-extrapolatedHit0.GetX();
+    diffY = vecOfPoint3D[0]->GetY()-extrapolatedHit0.GetY();
 
     fittedAngleIn = Track(extrapolatedHit0, extrapolatedHit3).GetZenithAngle();
     extrapolatedHit0.SetScattering(fittedAngleIn);
