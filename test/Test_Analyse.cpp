@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
   T t(argv[1]);
   std::cout << "Total Entries : " << t.fChain->GetEntries() << std::endl;
   t.Loop();
-  // return 0;
+  return 0;
   unsigned int evNo = std::atoi(argv[2]);
   std::vector<Point3D *> vecOfPoint3D = t.GetMuonTrack(evNo);
   Track *tr = new Track(vecOfPoint3D);

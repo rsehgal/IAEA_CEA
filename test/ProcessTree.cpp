@@ -17,6 +17,7 @@
 #include <TFile.h>
 #include <TStyle.h>
 #include "Global.h"
+#include "colors.h"
 int main(int argc, char *argv[])
 {
   TApplication *fApp = new TApplication("fApp", NULL, NULL);
@@ -25,6 +26,8 @@ int main(int argc, char *argv[])
   unsigned int numOfEvents = std::atoi(argv[2]);
   std::cout << "Total Entries : " << t.fChain->GetEntries() << std::endl;
   TH2F *hist = new TH2F("Recons", "Recons", nbinsx, xlow, xhigh, nbinsy, ylow, yhigh);
+  TH1F *histLayers= new TH1F("NoOfHittedLayers","NoOfHittedLayers",6,0,6);
+
   // t.Loop();
   unsigned long int nentries = t.fChain->GetEntries();
   // nentries = 200000;
@@ -47,11 +50,19 @@ int main(int argc, char *argv[])
   // TH1F *diffX = new TH1F("DiffX", "DiffY", 100, 0., 2.);
   // TH1F *diffY = new TH1F("DiffX", "DiffY", 100, 0., 2.);
   std::vector<Point3D> vecOfPocaPt;
+  unsigned int passingMuonCounter=0;
   for (unsigned int i = 0; i < nentries; i++)
   {
     if (!(i % 100000) && i != 0)
       std::cout << "Number of Events processed : " << i << std::endl;
     std::vector<Point3D *> vecOfPoint3D = t.GetMuonTrack(i);
+
+    histLayers->Fill(vecOfPoint3D.size());
+
+    if(vecOfPoint3D.size()!=4)
+    continue;
+
+    passingMuonCounter++;
     Track tr(vecOfPoint3D);
 
     /*
@@ -78,6 +89,8 @@ int main(int argc, char *argv[])
   }
 
   unsigned short numOfSlices = 16;
+  std::cout << BLUE << passingMuonCounter << " Muons found from " << nentries << " events..." << RESET << std::endl;
+
   std::vector<TH2F *> vecOfSlices = GetVectorOfSlices(vecOfPocaPt, numOfSlices);
 
   hist->Draw();
@@ -116,6 +129,7 @@ int main(int argc, char *argv[])
 
   canSlices->Update();
   canSlices->Write();
+  histLayers->Write();
   fTree->Write();
   outfile->Close();
   fApp->Run();

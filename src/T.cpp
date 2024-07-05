@@ -17,9 +17,16 @@ std::vector<Point3D *> T::GetMuonTrack(unsigned int trackIndex)
     // std::cout << MGv3_ClusPos[2*i][0] << "," << MGv3_ClusPos[2*i + 1][0] << std::endl;
     // std::cout << std::endl
     //        << "=========================================" << std::endl;
+    if(MGv3_ClusSize[2*i][0] > 1 && MGv3_ClusSize[2*i+1][0] > 1)
     vecOfPoint3D.push_back(new Point3D(MGv3_ClusPos[2 * i][0], MGv3_ClusPos[2 * i + 1][0], vecOfZPos[i]));
   }
+  //if(vecOfPoint3D.size()!=4)
+    //vecOfPoint3D.clear();
   return vecOfPoint3D;
+}
+
+std::vector<Point3D *> T::GetMuonTrack_VetoByLowestLayer(unsigned int trackIndex){
+  
 }
 
 std::vector<unsigned short> T::GetVectorOfClusterSize(unsigned int trackIndex)
