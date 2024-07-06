@@ -42,6 +42,11 @@ int main(int argc, char *argv[])
   nbinsx = 200;
   nbinsy = 200;
   TH2F *histExtrapolated = new TH2F("ReconsExtrapolated", "ReconsExtralpolated", nbinsx, xlow, xhigh, nbinsy, ylow, yhigh);
+
+  TH2F *histExtra0 = new TH2F("Hit on Plane 0", "Hit on Plane 0", nbinsx, xlow, xhigh, nbinsy, ylow, yhigh);
+  TH2F *histExtra1 = new TH2F("Hit on Plane 1", "Hit on Plane 1", nbinsx, xlow, xhigh, nbinsy, ylow, yhigh);
+  TH2F *histExtra2 = new TH2F("Hit on Plane 2", "Hit on Plane 2", nbinsx, xlow, xhigh, nbinsy, ylow, yhigh);
+  TH2F *histExtra3 = new TH2F("Hit on Plane 3", "Hit on Plane 3", nbinsx, xlow, xhigh, nbinsy, ylow, yhigh);
   // t.Loop();
 
   unsigned long int nentries = t.fChain->GetEntries();
@@ -56,6 +61,8 @@ int main(int argc, char *argv[])
     std::vector<Point3D *> vecOfPoint3D = t.GetMuonTrack(i);
     Track tr(vecOfPoint3D);
     Point3D extrapolatedHit0 = tr.GetHitPointAtLayer(0);
+    Point3D extrapolatedHit1 = tr.GetHitPointAtLayer(1);
+    Point3D extrapolatedHit2 = tr.GetHitPointAtLayer(2);
     Point3D extrapolatedHit3 = tr.GetHitPointAtLayer(3);
 
     diffX = vecOfPoint3D[0]->GetX()-extrapolatedHit0.GetX();
@@ -65,6 +72,10 @@ int main(int argc, char *argv[])
     extrapolatedHit0.SetScattering(fittedAngleIn);
     pt = extrapolatedHit0;
     histExtrapolated->Fill(extrapolatedHit0.GetX(), extrapolatedHit0.GetY());
+    histExtra0->Fill(extrapolatedHit0.GetX(), extrapolatedHit0.GetY());
+    histExtra1->Fill(extrapolatedHit1.GetX(), extrapolatedHit1.GetY());
+    histExtra2->Fill(extrapolatedHit2.GetX(), extrapolatedHit2.GetY());
+    histExtra3->Fill(extrapolatedHit3.GetX(), extrapolatedHit3.GetY());
     fTree->Fill();
   }
 
@@ -74,7 +85,20 @@ int main(int argc, char *argv[])
   // histActual->Write();
   histExtrapolated->Write();
 
+  TCanvas *can = new TCanvas("Transmission","Transmission");
+  can->Divide(2,2);
+
+  can->cd(1);
+  histExtra0->Draw("colz");
+  can->cd(2);
+  histExtra1->Draw("colz");
+  can->cd(3);
+  histExtra2->Draw("colz");
+  can->cd(4);
+  histExtra3->Draw("colz");
+
   fTree->Write();
+  can->Write();
   outfile->Close();
   fApp->Run();
 

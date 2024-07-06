@@ -16,6 +16,7 @@
 #include <TTree.h>
 #include <TFile.h>
 #include <string>
+#include <TLegend.h>
 int main(int argc, char *argv[])
 {
     TApplication *fApp = new TApplication("fApp", NULL, NULL);
@@ -53,16 +54,31 @@ int main(int argc, char *argv[])
             vecOfClusSizeHist[j]->SetLineColor(2);
             vecOfClusSizeHist[j]->SetTitle("Y_Plane");
         }
+
+        vecOfClusSizeHist[j]->SetLineWidth(2);
+        vecOfClusSizeHist[j]->GetXaxis()->SetTitle("Cluster Size");
+        vecOfClusSizeHist[j]->GetXaxis()->SetTitleSize(0.06);
+        vecOfClusSizeHist[j]->GetXaxis()->SetLabelSize(0.06);
+
+        vecOfClusSizeHist[j]->GetYaxis()->SetTitle("Count");
+        vecOfClusSizeHist[j]->GetYaxis()->SetTitleSize(0.06);
+        vecOfClusSizeHist[j]->GetYaxis()->SetLabelSize(0.06);
     }
 
     TCanvas *canClusterSize = new TCanvas("ClusterSize", "ClusterSize");
     canClusterSize->Divide(2, 2);
 
+    TLegend *legend = new TLegend(0.1, 0.7, 0.3, 0.9); // Position (x1, y1, x2, y2)
+    // legend->SetHeader("Legend Title", "C"); // Option "C" allows centering header
+    legend->AddEntry(vecOfClusSizeHist[0], "X Plane", "l");
+    legend->AddEntry(vecOfClusSizeHist[1], "Y Plane", "l");
+
     for (unsigned short j = 0; j < 8; j++)
     {
         unsigned short detectorIndex = j / 2;
         canClusterSize->cd(detectorIndex + 1);
-        vecOfClusSizeHist[j]->Draw("histsame");
+        vecOfClusSizeHist[j]->Draw("histsames");
+        legend->Draw("same");
     }
 
     fApp->Run();

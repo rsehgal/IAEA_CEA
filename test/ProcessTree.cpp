@@ -32,11 +32,12 @@ int main(int argc, char *argv[])
   if (numOfEvents > 0)
     nentries = numOfEvents;
 
-  std::string outfileName = "Poca_" + std::to_string(nentries)+".root";
+  std::string outfileName = "Poca_" + std::to_string(nentries) + ".root";
   TFile *outfile = new TFile(outfileName.c_str(), "RECREATE");
   TTree *fTree = new TTree("PocaTree", "PocaTree");
 
   gStyle->SetPalette(kRainBow);
+  gStyle->SetOptStat(0);
   double angleIn = 0.;
   double angleOut = 0.;
   fTree->Branch("Poca", &pocaPt);
@@ -68,7 +69,7 @@ int main(int argc, char *argv[])
     angleIn = incoming.GetZenithAngle();
     angleOut = outgoing.GetZenithAngle();
     // pocaPt.Print();
-    if (pocaPt.GetScattering() > 0.003)
+    if (pocaPt.GetScattering() > 0.04)
     {
       hist->Fill(pocaPt.GetX(), pocaPt.GetY());
       fTree->Fill();
@@ -76,7 +77,7 @@ int main(int argc, char *argv[])
     }
   }
 
-  unsigned short numOfSlices = 8;
+  unsigned short numOfSlices = 16;
   std::vector<TH2F *> vecOfSlices = GetVectorOfSlices(vecOfPocaPt, numOfSlices);
 
   hist->Draw();
@@ -102,10 +103,19 @@ int main(int argc, char *argv[])
   hist->Write();
   histScattering->Write();
 
+  TCanvas *canSlices = new TCanvas("Slices", "Slices");
+  canSlices->Divide(4, 4);
+
   for (unsigned int i = 0; i < vecOfSlices.size(); i++)
   {
+    canSlices->cd(i + 1);
+    vecOfSlices[i]->Smooth(1);
+    vecOfSlices[i]->Draw("colz");
     vecOfSlices[i]->Write();
   }
+
+  canSlices->Update();
+  canSlices->Write();
   fTree->Write();
   outfile->Close();
   fApp->Run();
