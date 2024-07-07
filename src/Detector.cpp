@@ -16,6 +16,12 @@ Detector::Detector(std::unique_ptr<Plane> xplane, std::unique_ptr<Plane> yplane)
 {
 }
 
+Detector::Detector(short xClusterSize, double xClusterPos, short yClusterSize, double yClusterPos)
+    : fXPlane(std::make_unique<Plane>(xClusterSize, xClusterPos)),
+      fYPlane(std::make_unique<Plane>(yClusterSize, yClusterPos))
+{
+}
+
 void Detector::Print()
 {
     if (fXPlane)

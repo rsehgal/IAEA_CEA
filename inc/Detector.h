@@ -15,6 +15,7 @@ class Detector
 public:
     Detector();
     Detector(std::unique_ptr<Plane> xplane, std::unique_ptr<Plane> yplane);
+    Detector(short xClusterSize, double xClusterPos, short yClusterSize, double yClusterPos);
     void Print();
     bool HitDetected();
 };
