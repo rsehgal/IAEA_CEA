@@ -53,3 +53,9 @@ target_link_libraries(ProcessTree_Transmission_3DFit ${ROOT_LIBRARIES} ABData)
 add_executable(Test_ClusterSize test/Test_ClusterSize.cpp ${sources} )
 target_link_libraries(Test_ClusterSize ${ROOT_LIBRARIES} ABData) 
 
+add_executable(Test_Plane test/Test_Plane.cpp ${sources} )
+target_link_libraries(Test_Plane ${ROOT_LIBRARIES} ABData) 
+
+add_executable(Test_Detector test/Test_Detector.cpp ${sources} )
+target_link_libraries(Test_Detector ${ROOT_LIBRARIES} ABData) 
+
