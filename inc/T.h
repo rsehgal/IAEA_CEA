@@ -69,7 +69,7 @@ public :
    std::vector<Point3D *> GetMuonTrack_VetoByLowestLayer(unsigned int trackIndex);
    std::vector<unsigned short> GetVectorOfClusterSize(unsigned int trackIndex);
    std::vector<std::unique_ptr<Detector>> GetMuonTrack_V2(unsigned int trackIndex);
-   bool ScatteringCandidate(std::vector<std::unique_ptr<Detector>> vecOfDet);
+   bool ScatteringCandidate(const std::vector<std::unique_ptr<Detector>> &vecOfDet);
 };
 
 #endif

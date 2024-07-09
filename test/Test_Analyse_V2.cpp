@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
        std::vector<std::unique_ptr<Detector>> vecOfDet = t.GetMuonTrack_V2(evNo);
         if (t.ScatteringCandidate(vecOfDet))
         {
+            std::cout << RED << "Scattering Candidate found : Event no : " << evNo << RESET << std::endl;
             for (unsigned int i = 0; i < vecOfDet.size(); i++)
             {
                 std::cout << "===============================================" << std::endl;

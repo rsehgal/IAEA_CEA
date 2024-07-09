@@ -11,7 +11,7 @@
 #include "Plane.h"
 #include "Detector.h"
 
-bool T::ScatteringCandidate(std::vector<std::unique_ptr<Detector>> vecOfDet){
+bool T::ScatteringCandidate(const std::vector<std::unique_ptr<Detector>> &vecOfDet){
   bool scatteringCandidate = true;
   for(unsigned int i = 0 ; i < vecOfDet.size() ; i++){
     scatteringCandidate &= vecOfDet[i]->HitDetected();
