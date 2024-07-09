@@ -70,6 +70,7 @@ public :
    std::vector<unsigned short> GetVectorOfClusterSize(unsigned int trackIndex);
    std::vector<std::unique_ptr<Detector>> GetMuonTrack_V2(unsigned int trackIndex);
    bool ScatteringCandidate(const std::vector<std::unique_ptr<Detector>> &vecOfDet);
+   std::vector<Point3D*> GetVectorOfPoint3D(const std::vector<std::unique_ptr<Detector>> &vecOfDet);
 };
 
 #endif

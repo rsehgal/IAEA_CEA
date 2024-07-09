@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Detector.h"
 #include "Plane.h"
+#include "Point3D.h"
 
 Detector::Detector()
 {
@@ -39,4 +40,8 @@ void Detector::Print()
 bool Detector::HitDetected()
 {
     return (fXPlane->sClusterSize > 1 && fYPlane->sClusterSize > 1);
+}
+
+Point3D* Detector::GetPoint3D(){
+    return (new Point3D(fXPlane->sClusterPos,fYPlane->sClusterPos,0.));
 }

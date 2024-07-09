@@ -7,6 +7,7 @@
 #define Detector_h
 #include "Plane.h"
 #include <memory>
+#include "Point3D.h"
 
 class Detector
 {
@@ -19,5 +20,7 @@ public:
     Detector(short xClusterSize, double xClusterPos, short yClusterSize, double yClusterPos);
     void Print();
     bool HitDetected();
+    Point3D* GetPoint3D();
+
 };
 #endif
