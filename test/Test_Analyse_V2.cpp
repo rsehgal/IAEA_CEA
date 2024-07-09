@@ -81,9 +81,20 @@ int main(int argc, char *argv[])
     if (t.AbsorptionCandidate(vecOfDet)) {
       
       Point3D *hitPt = vecOfDet[2]->GetPoint3D();
+      //Taking projection on Different Z : 0, -50, -100, -150, -200
       projectedPt    = incoming.GetHitPointAtZ(0.);//*hitPt;
       histAbsorption->Fill(projectedPt.GetX(), projectedPt.GetY());
       fTreeAbsorption->Fill();
+      projectedPt    = incoming.GetHitPointAtZ(-50.);
+      fTreeAbsorption->Fill();
+      projectedPt    = incoming.GetHitPointAtZ(-100.);
+      fTreeAbsorption->Fill();
+      projectedPt    = incoming.GetHitPointAtZ(-150.);
+      fTreeAbsorption->Fill();
+      projectedPt    = incoming.GetHitPointAtZ(-200.);
+      fTreeAbsorption->Fill();
+      
+
     }
     vecOfDet.clear();
   }
