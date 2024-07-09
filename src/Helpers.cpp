@@ -81,10 +81,9 @@ Point3D POCA_V2(Track track1, Track track2)
 				 (p1.GetZ() + sc * dp1.GetZ()),
 				 scattering);
 	// std::cout << "Scattering : " << scattering << std::endl;
-	poca.SetX(poca.GetX() * 0.68);
-	poca.SetY(poca.GetY() * 0.68);
-	// poca.SetZ(pocaPt.GetZ() * 0.68);
-
+	//poca.SetX(poca.GetX() * 0.68);
+	//poca.SetY(poca.GetY() * 0.68);
+	
 	return poca;
 }
 

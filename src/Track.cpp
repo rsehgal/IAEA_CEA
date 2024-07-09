@@ -146,3 +146,10 @@ Point3D Track::GetHitPointAtLayer(unsigned short planeIndex)
 	fittedPt.SetExtra(chi2byNDF);
 	return fittedPt;
 }
+
+Point3D Track::GetHitPointAtZ(double zval){
+	Point3D dir = (fP1 - fP2).Unit();
+ 	double dist = (zval - fP1.GetZ())/ dir.GetZ();
+	Point3D hitPoint = fP1 + dir*dist;
+	return hitPoint;
+}

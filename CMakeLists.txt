@@ -62,3 +62,6 @@ target_link_libraries(Test_Detector ${ROOT_LIBRARIES} ABData)
 add_executable(Test_Analyse_V2 test/Test_Analyse_V2.cpp ${sources} )
 target_link_libraries(Test_Analyse_V2 ${ROOT_LIBRARIES} ABData) 
 
+add_executable(ProcessTreeNew test/ProcessTreeNew.cpp ${sources})
+target_link_libraries(ProcessTreeNew ${ROOT_LIBRARIES} ABData) 
+

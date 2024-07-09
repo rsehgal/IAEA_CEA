@@ -20,6 +20,23 @@ bool T::ScatteringCandidate(const std::vector<std::unique_ptr<Detector>> &vecOfD
   return scatteringCandidate;
 }
 
+bool T::AbsorptionCandidate(const std::vector<std::unique_ptr<Detector>> &vecOfDet)
+{
+  bool absorptionCandidate = true;
+  // Considering top half planes are used for incoming track
+  // and bottom half for outgoing track
+  unsigned short midDetIndex = vecOfDet.size() / 2;
+  for (unsigned int i = vecOfDet.size() - 1; i >= 0; i--) {
+    if (i >= midDetIndex)
+      absorptionCandidate &= vecOfDet[i]->HitDetected();
+    else
+      absorptionCandidate &= !(vecOfDet[i]->HitDetected());
+
+    if (i == 0) break;
+  }
+  return absorptionCandidate;
+}
+
 std::vector<Point3D *> T::GetVectorOfPoint3D(const std::vector<std::unique_ptr<Detector>> &vecOfDet)
 {
   std::vector<Point3D *> vecOfPoint3D;
@@ -37,9 +54,10 @@ std::vector<std::unique_ptr<Detector>> T::GetMuonTrack_V2(unsigned int trackInde
   int val = GetEntry(trackIndex);
 
   for (unsigned short i = 0; i < 4; i++) {
-    vecOfDet.emplace_back(std::make_unique<Detector>((short)MGv3_ClusSize[2 * i][0], (double)MGv3_ClusPos[2 * i][0],
+    vecOfDet.emplace_back(std::make_unique<Detector>((short)MGv3_ClusSize[2 * i][0], 
+                                                     (double)MGv3_ClusPos[2 * i][0]*0.68,
                                                      (short)MGv3_ClusSize[2 * i + 1][0],
-                                                     (double)MGv3_ClusPos[2 * i + 1][0]));
+                                                     (double)MGv3_ClusPos[2 * i + 1][0]*0.68));
   }
 
   return vecOfDet;
@@ -55,7 +73,7 @@ std::vector<Point3D *> T::GetMuonTrack(unsigned int trackIndex)
     // std::cout << std::endl
     //        << "=========================================" << std::endl;
     if (MGv3_ClusSize[2 * i][0] > 1 && MGv3_ClusSize[2 * i + 1][0] > 1)
-      vecOfPoint3D.push_back(new Point3D(MGv3_ClusPos[2 * i][0], MGv3_ClusPos[2 * i + 1][0], vecOfZPos[i]));
+      vecOfPoint3D.push_back(new Point3D(MGv3_ClusPos[2 * i][0]*0.68, MGv3_ClusPos[2 * i + 1][0]*0.68, vecOfZPos[i]));
   }
   // if(vecOfPoint3D.size()!=4)
   // vecOfPoint3D.clear();
