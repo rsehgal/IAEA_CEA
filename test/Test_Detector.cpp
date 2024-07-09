@@ -16,5 +16,12 @@ int main(int argc, char *argv[]){
     det->Print();
 
     std::cout << "Hit Detected : " << det->HitDetected() << std::endl;
+
+    std::unique_ptr<Detector> det2 = std::make_unique<Detector>(
+        20,40,30,60);
+    det2->Print();
+
+    std::cout << "Hit Detected : " << det2->HitDetected() << std::endl;
+
     return 0;
 }

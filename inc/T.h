@@ -13,6 +13,7 @@
 #include <TFile.h>
 #include "Point3D.h"
 #include <string>
+#include "Detector.h"
 // Header file for the classes stored in the TTree if any.
 
 
@@ -67,7 +68,7 @@ public :
    std::vector<Point3D*> GetMuonTrack(unsigned int trackIndex);
    std::vector<Point3D *> GetMuonTrack_VetoByLowestLayer(unsigned int trackIndex);
    std::vector<unsigned short> GetVectorOfClusterSize(unsigned int trackIndex);
-
+   std::vector<std::unique_ptr<Detector>> GetMuonTrack_V2(unsigned int trackIndex);
 };
 
 #endif

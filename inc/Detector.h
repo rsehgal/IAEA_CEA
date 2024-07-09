@@ -7,6 +7,7 @@
 #define Detector_h
 #include "Plane.h"
 #include <memory>
+
 class Detector
 {
     std::unique_ptr<Plane> fXPlane;
