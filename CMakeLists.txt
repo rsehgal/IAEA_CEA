@@ -59,3 +59,6 @@ target_link_libraries(Test_Plane ${ROOT_LIBRARIES} ABData)
 add_executable(Test_Detector test/Test_Detector.cpp ${sources} )
 target_link_libraries(Test_Detector ${ROOT_LIBRARIES} ABData) 
 
+add_executable(Test_Analyse_V2 test/Test_Analyse_V2.cpp ${sources} )
+target_link_libraries(Test_Analyse_V2 ${ROOT_LIBRARIES} ABData) 
+

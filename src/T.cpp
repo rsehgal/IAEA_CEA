@@ -11,6 +11,14 @@
 #include "Plane.h"
 #include "Detector.h"
 
+bool T::ScatteringCandidate(std::vector<std::unique_ptr<Detector>> vecOfDet){
+  bool scatteringCandidate = true;
+  for(unsigned int i = 0 ; i < vecOfDet.size() ; i++){
+    scatteringCandidate &= vecOfDet[i]->HitDetected();
+  }
+  return scatteringCandidate;
+}
+
 std::vector<std::unique_ptr<Detector>> T::GetMuonTrack_V2(unsigned int trackIndex)
 {
   std::vector<std::unique_ptr<Detector>> vecOfDet;
